@@ -17,12 +17,26 @@ type CarPlate struct {
 // 	Make      int16  `json:"make"`
 // }
 
+var carPlates []*CarPlate
+
+func addPlate() {
+	carPlates = append(carPlates, &CarPlate{
+		ID: "GTR 000",
+	})
+}
+
 func GetCarPlates() []*CarPlate {
-	return []*CarPlate{
-		&CarPlate{
-			ID: "GTR 000",
-		},
-		&CarPlate{
-			ID: "HBO 200",
-		}}
+	// s := append(s, &CarPlate{
+	// 	ID: "GTR 000",
+	// })
+	addPlate()
+	return carPlates
+	// return []*CarPlate{
+	// 	&CarPlate{
+	// 		ID: "GTR 000",
+	// 	},
+	// 	&CarPlate{
+	// 		ID: "HBOs 200",
+	// 	}
+	// }
 }
