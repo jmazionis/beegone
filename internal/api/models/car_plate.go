@@ -2,8 +2,8 @@ package models
 
 type CarPlate struct {
 	ID string `json:"id"`
-	// Owner Owner  `json:"owner"`
-	// Car   Car    `json:"car"`
+	// 	Owner Owner  `json:"owner"`
+	// 	Car   Car    `json:"car"`
 }
 
 // type Owner struct {
@@ -15,6 +15,7 @@ type CarPlate struct {
 // type Car struct {
 // 	ModelName string `json:"modelName"`
 // 	Make      int16  `json:"make"`
+// 	ImageUrl  string `json:"imageUrl"`
 // }
 
 var carPlates []*CarPlate
