@@ -2,10 +2,13 @@ package routers
 
 import (
 	"do/internal/api/controllers"
+	"do/internal/api/services"
 
 	"github.com/astaxie/beego"
 )
 
 func init() {
-	beego.Router("/", &controllers.CarplateController{})
+	carPlateService := services.NewCarPlateService()
+	carPlateController := controllers.NewCarPlateController(carPlateService)
+	beego.Router("/", carPlateController)
 }

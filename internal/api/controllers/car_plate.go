@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"do/internal/api/models"
 	"do/internal/api/services"
 
 	"github.com/astaxie/beego"
@@ -9,11 +8,22 @@ import (
 
 type CarplateController struct {
 	beego.Controller
-	services.CarPlateService
+	service services.CarPlateService
+}
+
+func NewCarPlateController(carplateService services.CarPlateService) *CarplateController {
+	return &CarplateController{
+		service: carplateService,
+	}
+}
+
+func (c *CarplateController) Prepare() {
+	c.service = services.NewCarPlateService()
 }
 
 func (c *CarplateController) Get() {
-	cars := models.GetCarPlates()
+	cars := c.service.GetAll()
+	//cars := models.GetCarPlates()
 	c.Data["json"] = cars
 	c.ServeJSON()
 }
