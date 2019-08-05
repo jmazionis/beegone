@@ -12,5 +12,6 @@ func main() {
 		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
 	}
 	beego.BConfig.Listen.HTTPPort = 9090
+	beego.BConfig.CopyRequestBody = true
 	beego.Run()
 }

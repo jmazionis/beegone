@@ -1,22 +1,33 @@
 package services
 
-import "do/internal/api/models"
+import (
+	"do/internal/api/models"
+	"do/internal/api/storages"
+)
 
 type CarPlateService interface {
 	// Get(id string) (*models.CarPlate, error)
 	GetAll() []*models.CarPlate
-	// Create(*models.CarPlate) error
+	Add(*models.CarPlate) bool
 	// Update(*models.CarPlate) error
 	// Delete(id string) error
 }
 
 func NewCarPlateService() CarPlateService {
-	return &CarServiceImpl{}
+	return &CarServiceImpl{
+		storage: storages.NewCarPlateStorage(),
+	}
 }
 
 type CarServiceImpl struct {
+	storage storages.CarPlateStorage
 }
 
 func (c *CarServiceImpl) GetAll() []*models.CarPlate {
-	return models.GetCarPlates()
+	return c.storage.GetAll()
+}
+
+func (c *CarServiceImpl) Add(carPlate *models.CarPlate) bool {
+	ok := c.storage.Add(carPlate)
+	return ok
 }

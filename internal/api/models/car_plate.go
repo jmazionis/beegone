@@ -18,26 +18,26 @@ type CarPlate struct {
 // 	ImageUrl  string `json:"imageUrl"`
 // }
 
-var carPlates []*CarPlate
+// var carPlates []*CarPlate
 
-func addPlate() {
-	carPlates = append(carPlates, &CarPlate{
-		ID: "GTR 000",
-	})
-}
+// func addPlate() {
+// 	carPlates = append(carPlates, &CarPlate{
+// 		ID: "GTR 000",
+// 	})
+// }
 
-func GetCarPlates() []*CarPlate {
-	// s := append(s, &CarPlate{
-	// 	ID: "GTR 000",
-	// })
-	addPlate()
-	return carPlates
-	// return []*CarPlate{
-	// 	&CarPlate{
-	// 		ID: "GTR 000",
-	// 	},
-	// 	&CarPlate{
-	// 		ID: "HBOs 200",
-	// 	}
-	// }
-}
+// func GetCarPlates() []*CarPlate {
+// 	// s := append(s, &CarPlate{
+// 	// 	ID: "GTR 000",
+// 	// })
+// 	addPlate()
+// 	return carPlates
+// 	// return []*CarPlate{
+// 	// 	&CarPlate{
+// 	// 		ID: "GTR 000",
+// 	// 	},
+// 	// 	&CarPlate{
+// 	// 		ID: "HBOs 200",
+// 	// 	}
+// 	// }
+// }
