@@ -32,8 +32,10 @@ type CarPlateStorageImpl struct {
 }
 
 func (c *CarPlateStorageImpl) Get(id string) (*models.CarPlate, bool) {
-	carplate, found := c.carplates.Get(id)
-	return carplate.(*models.CarPlate), found
+	if carplate, found := c.carplates.Get(id); found {
+		return carplate.(*models.CarPlate), found
+	}
+	return nil, false
 }
 
 func (c *CarPlateStorageImpl) GetAll() []*models.CarPlate {

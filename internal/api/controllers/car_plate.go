@@ -17,6 +17,13 @@ func (c *CarPlateController) Prepare() {
 	c.service = services.NewCarPlateService()
 }
 
+func (c *CarPlateController) Get() {
+	id := c.Ctx.Input.Param(":id")
+	carplate, _ := c.service.Get(id)
+
+	c.Data["json"] = carplate
+}
+
 func (c *CarPlateController) GetAll() {
 	cars := c.service.GetAll()
 
@@ -28,12 +35,39 @@ func (c *CarPlateController) Add() {
 	var carplate *models.CarPlate
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &carplate)
 	if err != nil {
+		c.Ctx.Output.SetStatus(500)
 		beego.Error("Unable to unmarshal add carplate req")
 	}
 
-	c.service.Add(carplate)
+	err = c.service.Add(carplate)
+	if err != nil {
+		beego.Error("Unable to add carplate")
+	}
 
-	c.Data["json"] = c.service.GetAll() //map[string]interface{}{"id": carplate.ID}
+	c.Data["json"] = c.service.GetAll()
 	c.ServeJSON()
+}
 
+func (c *CarPlateController) Update() {
+	var carplate *models.CarPlate
+	err := json.Unmarshal(c.Ctx.Input.RequestBody, &carplate)
+	if err != nil {
+		c.Ctx.Output.SetStatus(500)
+		beego.Error("Unable to unmarshal udpate carplate req")
+	}
+
+	err = c.service.Update(carplate)
+	if err != nil {
+		beego.Error("Unable to update carplate")
+	}
+
+	c.Data["json"] = carplate
+	c.ServeJSON()
+}
+
+func (c *CarPlateController) Delete() {
+	id := c.Ctx.Input.Param(":id")
+	c.service.Delete(id)
+	c.Data["json"] = id
+	c.ServeJSON()
 }
