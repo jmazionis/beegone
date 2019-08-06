@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 
 	"github.com/astaxie/beego"
+	"github.com/segmentio/ksuid"
 )
 
 type CarPlateController struct {
@@ -22,6 +23,7 @@ func (c *CarPlateController) Get() {
 	carplate, _ := c.service.Get(id)
 
 	c.Data["json"] = carplate
+	c.ServeJSON()
 }
 
 func (c *CarPlateController) GetAll() {
@@ -34,9 +36,11 @@ func (c *CarPlateController) GetAll() {
 func (c *CarPlateController) Add() {
 	var carplate *models.CarPlate
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &carplate)
+	carplate.ID = ksuid.New().String()
+
 	if err != nil {
-		c.Ctx.Output.SetStatus(500)
 		beego.Error("Unable to unmarshal add carplate req")
+		c.Abort("400")
 	}
 
 	err = c.service.Add(carplate)
