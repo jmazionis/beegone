@@ -1,7 +1,7 @@
 package models
 
 type CarPlate struct {
-	ID   string `json:"id"`
+	ID   string `json:"id,omitempty"`
 	Name string `json:"name"`
 	// 	Owner Owner  `json:"owner"`
 	// 	Car   Car    `json:"car"`

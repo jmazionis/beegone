@@ -4,6 +4,7 @@ import (
 	"do/internal/api/models"
 	"do/internal/api/services"
 	"encoding/json"
+	"fmt"
 
 	"github.com/astaxie/beego"
 	"github.com/segmentio/ksuid"
@@ -39,16 +40,20 @@ func (c *CarPlateController) Add() {
 	carplate.ID = ksuid.New().String()
 
 	if err != nil {
-		beego.Error("Unable to unmarshal add carplate req")
-		c.Abort("400")
+		beego.Error("unable to unmarshal add carplate req")
+		c.Ctx.Output.SetStatus(400)
+		return
 	}
 
 	err = c.service.Add(carplate)
 	if err != nil {
-		beego.Error("Unable to add carplate")
+		beego.Error("unable to add carplate")
+		c.Ctx.Output.SetStatus(400)
+		return
 	}
 
-	c.Data["json"] = c.service.GetAll()
+	c.Ctx.Output.SetStatus(201)
+	c.Data["json"] = fmt.Sprintf("%s/%s", c.Ctx.Input.URL(), carplate.ID)
 	c.ServeJSON()
 }
 
@@ -56,15 +61,19 @@ func (c *CarPlateController) Update() {
 	var carplate *models.CarPlate
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &carplate)
 	if err != nil {
-		c.Ctx.Output.SetStatus(500)
-		beego.Error("Unable to unmarshal udpate carplate req")
+		c.Ctx.Output.SetStatus(400)
+		beego.Error("unable to unmarshal update carplate req")
+		return
 	}
 
 	err = c.service.Update(carplate)
 	if err != nil {
-		beego.Error("Unable to update carplate")
+		c.Ctx.Output.SetStatus(400)
+		beego.Error("unable to update carplate")
+		return
 	}
 
+	c.Ctx.Output.SetStatus(204)
 	c.Data["json"] = carplate
 	c.ServeJSON()
 }
@@ -72,6 +81,5 @@ func (c *CarPlateController) Update() {
 func (c *CarPlateController) Delete() {
 	id := c.Ctx.Input.Param(":id")
 	c.service.Delete(id)
-	c.Data["json"] = id
-	c.ServeJSON()
+	c.Ctx.Output.SetStatus(204)
 }

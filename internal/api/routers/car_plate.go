@@ -7,9 +7,7 @@ import (
 )
 
 func init() {
-	beego.Router("/api/carplates/", &controllers.CarPlateController{}, "get:GetAll")
-	beego.Router("/api/carplates/:id", &controllers.CarPlateController{}, "get:Get")
-	beego.Router("/api/carplates/add", &controllers.CarPlateController{}, "post:Add")
-	beego.Router("/api/carplates/update", &controllers.CarPlateController{}, "put:Update")
-	beego.Router("/api/carplates/delete/:id", &controllers.CarPlateController{}, "delete:Delete")
+	beego.Router("/api/carplates", &controllers.CarPlateController{}, "get:GetAll;post:Add;put:Update")
+	beego.Router("/api/carplates/:id", &controllers.CarPlateController{}, "get:Get;delete:Delete")
+
 }

@@ -49,6 +49,9 @@ func (c *CarPlateStorageImpl) GetAll() []*models.CarPlate {
 }
 
 func (c *CarPlateStorageImpl) Add(m *models.CarPlate) bool {
+	if m.ID == "" {
+		return false
+	}
 	return c.carplates.SetIfAbsent(m.ID, m)
 }
 

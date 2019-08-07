@@ -36,6 +36,7 @@ func (c *CarPlateServiceImpl) GetAll() []*models.CarPlate {
 }
 
 func (c *CarPlateServiceImpl) Add(carPlate *models.CarPlate) error {
+
 	if ok := c.storage.Add(carPlate); !ok {
 		return fmt.Errorf("carplate %v already exists", carPlate.ID)
 	}
