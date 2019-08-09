@@ -13,6 +13,7 @@ type CarPlateStorage interface {
 	Add(m *models.CarPlate) bool
 	Update(id string, m *models.CarPlate) bool
 	Delete(id string)
+	Reset()
 }
 
 var once sync.Once
@@ -66,4 +67,8 @@ func (c *CarPlateStorageImpl) Update(id string, m *models.CarPlate) bool {
 
 func (c *CarPlateStorageImpl) Delete(id string) {
 	c.carplates.Remove(id)
+}
+
+func (c *CarPlateStorageImpl) Reset() {
+	c.carplates = cmap.New()
 }
