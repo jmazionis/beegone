@@ -42,11 +42,18 @@ func (c *CarPlateController) GetAll() {
 func (c *CarPlateController) Add() {
 	var carplate *models.CarPlate
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &carplate)
-	carplate.ID = ksuid.New().String()
 
 	if err != nil {
 		beego.Error(err)
 		c.Ctx.Output.SetStatus(400)
+		return
+	}
+
+	carplate.ID = ksuid.New().String()
+	if valid, validationSummary := carplate.Validate(); !valid {
+		c.Ctx.Output.SetStatus(400)
+		c.Data["json"] = validationSummary
+		c.ServeJSON()
 		return
 	}
 
@@ -67,6 +74,13 @@ func (c *CarPlateController) Update() {
 	if err != nil {
 		c.Ctx.Output.SetStatus(400)
 		beego.Error(err)
+		return
+	}
+
+	if valid, validationSummary := carplate.Validate(); !valid {
+		c.Ctx.Output.SetStatus(400)
+		c.Data["json"] = validationSummary
+		c.ServeJSON()
 		return
 	}
 

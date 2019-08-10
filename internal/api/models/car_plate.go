@@ -1,26 +1,43 @@
 package models
 
 import (
+	"fmt"
+
+	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/validation"
 )
 
 type CarPlate struct {
-	ID   string `json:"id,omitempty"`
+	ID   string `json:"id,omitempty" valid:"Required"`
 	Name string `json:"name" valid:"Required"`
-	// 	Owner Owner  `json:"owner"`
-	// 	Car   Car    `json:"car"`
 }
 
-func (c *CarPlate) Validate(v *validation.Validation) error {
-	validation := validation.Validation{}
-	_, err := validation.Valid(c)
+type validationSummary struct {
+	Errors []string `json:"errors"`
+}
 
-	if err != nil {
-		// handle error
-		return err
+func toValidationSummary(errors []*validation.Error) *validationSummary {
+	var errList = []string{}
+	for _, e := range errors {
+		errMsg := fmt.Sprintf("%s field: %s", e.Field, e.Message)
+		errList = append(errList, errMsg)
 	}
 
-	return nil
+	return &validationSummary{
+		Errors: errList,
+	}
+}
+
+func (c *CarPlate) Validate() (bool, *validationSummary) {
+	v := validation.Validation{}
+	ok, err := v.Valid(c)
+
+	if err != nil {
+		beego.Error(err)
+		return false, nil
+	}
+
+	return ok, toValidationSummary(v.Errors)
 }
 
 // type Owner struct {
