@@ -1,4 +1,4 @@
-module do
+module github.com/ICanHaz/beegone
 
 go 1.12
 

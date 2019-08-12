@@ -1,8 +1,9 @@
 package storages
 
 import (
-	"do/internal/api/models"
 	"sync"
+
+	"github.com/ICanHaz/beegone/internal/api/models"
 
 	cmap "github.com/orcaman/concurrent-map"
 )

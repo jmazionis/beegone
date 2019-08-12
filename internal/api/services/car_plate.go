@@ -1,8 +1,8 @@
 package services
 
 import (
-	"do/internal/api/models"
-	"do/internal/api/storages"
+	"github.com/ICanHaz/beegone/internal/api/models"
+	"github.com/ICanHaz/beegone/internal/api/storages"
 	"fmt"
 )
 

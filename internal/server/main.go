@@ -1,7 +1,7 @@
 package main
 
 import (
-	_ "do/internal/server/routers"
+	_ "github.com/ICanHaz/beegone/internal/server/routers"
 	"github.com/astaxie/beego"
 )
 

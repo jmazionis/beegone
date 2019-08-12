@@ -1,12 +1,13 @@
 package test
 
 import (
-	_ "do/internal/server/routers"
 	"net/http"
 	"net/http/httptest"
 	"path/filepath"
 	"runtime"
 	"testing"
+
+	_ "github.com/ICanHaz/beegone/internal/server/routers"
 
 	"github.com/astaxie/beego"
 	. "github.com/smartystreets/goconvey/convey"

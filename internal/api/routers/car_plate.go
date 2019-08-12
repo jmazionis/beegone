@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"do/internal/api/controllers"
+	"github.com/ICanHaz/beegone/internal/api/controllers"
 
 	"github.com/astaxie/beego"
 )

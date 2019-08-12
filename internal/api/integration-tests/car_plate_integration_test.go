@@ -7,7 +7,8 @@ import (
 	"path/filepath"
 	"runtime"
 	"testing"
-	_ "do/internal/api/routers"
+
+	_ "github.com/ICanHaz/beegone/internal/api/routers"
 
 	"github.com/astaxie/beego"
 	. "github.com/smartystreets/goconvey/convey"

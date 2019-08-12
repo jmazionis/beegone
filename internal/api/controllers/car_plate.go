@@ -1,10 +1,11 @@
 package controllers
 
 import (
-	"do/internal/api/models"
-	"do/internal/api/services"
 	"encoding/json"
 	"fmt"
+
+	"github.com/ICanHaz/beegone/internal/api/models"
+	"github.com/ICanHaz/beegone/internal/api/services"
 
 	"github.com/astaxie/beego"
 	"github.com/segmentio/ksuid"
