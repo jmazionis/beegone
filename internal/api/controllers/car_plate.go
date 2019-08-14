@@ -6,6 +6,7 @@ import (
 
 	"github.com/ICanHaz/beegone/internal/api/models"
 	"github.com/ICanHaz/beegone/internal/api/services"
+	"github.com/ICanHaz/beegone/internal/api/storages"
 
 	"github.com/astaxie/beego"
 	"github.com/segmentio/ksuid"
@@ -17,7 +18,7 @@ type CarPlateController struct {
 }
 
 func (c *CarPlateController) Prepare() {
-	c.service = services.NewCarPlateService()
+	c.service = services.NewCarPlateService(storages.CarPlateDb())
 }
 
 func (c *CarPlateController) Get() {

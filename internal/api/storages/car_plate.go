@@ -1,8 +1,6 @@
 package storages
 
 import (
-	"sync"
-
 	"github.com/ICanHaz/beegone/internal/api/models"
 
 	cmap "github.com/orcaman/concurrent-map"
@@ -17,16 +15,16 @@ type CarPlateStorage interface {
 	Reset()
 }
 
-var once sync.Once
-var instance *CarPlateStorageImpl
+var carplateStorage *CarPlateStorageImpl
 
-func NewCarPlateStorage() CarPlateStorage {
-	once.Do(func() {
-		instance = &CarPlateStorageImpl{
-			carplates: cmap.New(),
-		}
-	})
-	return instance
+func init() {
+	carplateStorage = &CarPlateStorageImpl{
+		carplates: cmap.New(),
+	}
+}
+
+func CarPlateDb() CarPlateStorage {
+	return carplateStorage
 }
 
 type CarPlateStorageImpl struct {

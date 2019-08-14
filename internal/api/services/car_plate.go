@@ -1,9 +1,10 @@
 package services
 
 import (
+	"fmt"
+
 	"github.com/ICanHaz/beegone/internal/api/models"
 	"github.com/ICanHaz/beegone/internal/api/storages"
-	"fmt"
 )
 
 type CarPlateService interface {
@@ -14,9 +15,9 @@ type CarPlateService interface {
 	Delete(id string)
 }
 
-func NewCarPlateService() CarPlateService {
+func NewCarPlateService(carplateStorage storages.CarPlateStorage) CarPlateService {
 	return &CarPlateServiceImpl{
-		storage: storages.NewCarPlateStorage(),
+		storage: carplateStorage,
 	}
 }
 
