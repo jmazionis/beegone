@@ -6,7 +6,6 @@ import (
 
 	"github.com/ICanHaz/beegone/internal/api/models"
 	"github.com/ICanHaz/beegone/internal/api/services"
-	"github.com/ICanHaz/beegone/internal/api/storages"
 
 	"github.com/astaxie/beego"
 	"github.com/segmentio/ksuid"
@@ -14,16 +13,12 @@ import (
 
 type CarPlateController struct {
 	beego.Controller
-	service services.CarPlateService
-}
-
-func (c *CarPlateController) Prepare() {
-	c.service = services.NewCarPlateService(storages.CarPlateDb())
+	CarPlateService services.CarPlateService
 }
 
 func (c *CarPlateController) Get() {
 	id := c.Ctx.Input.Param(":id")
-	carplate, err := c.service.Get(id)
+	carplate, err := c.CarPlateService.Get(id)
 
 	if err != nil {
 		c.Ctx.Output.SetStatus(404)
@@ -35,7 +30,7 @@ func (c *CarPlateController) Get() {
 }
 
 func (c *CarPlateController) GetAll() {
-	cars := c.service.GetAll()
+	cars := c.CarPlateService.GetAll()
 
 	c.Data["json"] = cars
 	c.ServeJSON()
@@ -59,7 +54,7 @@ func (c *CarPlateController) Add() {
 		return
 	}
 
-	err = c.service.Add(carplate)
+	err = c.CarPlateService.Add(carplate)
 	if err != nil {
 		beego.Error(err)
 		c.Ctx.Output.SetStatus(400)
@@ -86,7 +81,7 @@ func (c *CarPlateController) Update() {
 		return
 	}
 
-	err = c.service.Update(carplate)
+	err = c.CarPlateService.Update(carplate)
 	if err != nil {
 		c.Ctx.Output.SetStatus(404)
 		beego.Error(err)
@@ -98,6 +93,6 @@ func (c *CarPlateController) Update() {
 
 func (c *CarPlateController) Delete() {
 	id := c.Ctx.Input.Param(":id")
-	c.service.Delete(id)
+	c.CarPlateService.Delete(id)
 	c.Ctx.Output.SetStatus(204)
 }

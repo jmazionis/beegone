@@ -42,15 +42,3 @@ func (c *CarPlate) Validate() (bool, *validationSummary) {
 
 	return ok, toValidationSummary(v.Errors)
 }
-
-// type Owner struct {
-// 	ID      string `json:"id"`
-// 	Name    string `json:"name"`
-// 	Surname string `json:"surname"`
-// }
-
-// type Car struct {
-// 	ModelName string `json:"modelName"`
-// 	Make      int16  `json:"make"`
-// 	ImageUrl  string `json:"imageUrl"`
-// }
