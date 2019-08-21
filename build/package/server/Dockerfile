@@ -5,8 +5,8 @@ COPY ./go.mod .
 COPY ./go.sum .
 RUN go mod download
 
-COPY ./internal/api ./internal/api
-COPY ./cmd/api/main.go .
+COPY ./internal/server ./internal/server
+COPY ./cmd/server/main.go .
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /app/bin main.go
 
