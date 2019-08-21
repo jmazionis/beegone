@@ -6,5 +6,7 @@ import (
 )
 
 func main() {
+	beego.BConfig.CopyRequestBody = true
+	beego.BConfig.WebConfig.ViewsPath = "../../web/views"
 	beego.Run()
 }
