@@ -7,6 +7,9 @@ import (
 
 func main() {
 	beego.BConfig.CopyRequestBody = true
-	beego.BConfig.WebConfig.ViewsPath = "../../web/views"
+	beego.BConfig.Listen.HTTPPort = 9000
+	beego.SetStaticPath("/static", "web/app/build/static")
+	beego.SetStaticPath("/", "web/app/build")
+	beego.BConfig.WebConfig.ViewsPath = "web/app/build"
 	beego.Run()
 }

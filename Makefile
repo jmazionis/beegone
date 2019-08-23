@@ -9,7 +9,8 @@ build-api-container:
 
 
 build-server:
-	@go build ./cmd/server/...
+	@go build -o ./bin/server ./cmd/server/...
+	@./bin/server
 
 build-server-container:
 	@docker build -f ./build/package/server/Dockerfile -t beegone-server .
