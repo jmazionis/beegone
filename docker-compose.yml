@@ -1,0 +1,25 @@
+version: '3'
+services:
+    api:
+        restart: always
+        build:
+            context: .
+            dockerfile: ./build/package/api/Dockerfile
+        networks:
+            - default
+        ports:
+            - '9090:9090'
+    web:
+        restart: always
+        build:
+            context: .
+            dockerfile: ./build/package/server/Dockerfile
+        depends_on:
+            - api
+        networks:
+            - default
+        ports:
+            - '9000:9000'
+
+networks:
+    default:
