@@ -7,7 +7,6 @@ api-integration-tests:
 build-api-container:
 	@docker build -f ./build/package/api/Dockerfile -t beegone-api .
 
-
 build-server:
 	@go build -o ./bin/server ./cmd/server/...
 	@./bin/server
