@@ -1,48 +1,60 @@
 import React, { Component } from 'react';
 import { CarplatesApi } from '../services/carPlatesApi';
 import MaterialTable from 'material-table';
+import { CarplateModel } from '../models/carplateModel';
 
 export interface ICarplatesTableProps {
     carPlatesApi: CarplatesApi;
 }
 
-export interface ICarplatesTableState {}
+export interface ICarplatesTableState {
+    isLoading: boolean;
+    carplates: CarplateModel[];
+}
 
 export class CarplatesTable extends Component<
     ICarplatesTableProps,
     ICarplatesTableState
 > {
-    async componentWillMount() {
-        const carplates = await this.props.carPlatesApi.getAll();
-        console.log(carplates);
-    }
-
     constructor(props: ICarplatesTableProps) {
         super(props);
 
-        this.state = {};
+        this.state = { isLoading: false, carplates: [] };
     }
 
-    public render() {
+    async componentWillMount() {
+        try {
+            this.setState({
+                isLoading: true
+            });
+            const carplates = await this.props.carPlatesApi.getAll();
+            this.setState({
+                carplates
+            });
+        } catch (error) {
+            console.log('Error fetching carplates: ', error);
+        } finally {
+            this.setState({
+                isLoading: false
+            });
+        }
+    }
+
+    render() {
+        const { isLoading, carplates } = this.state;
         return (
             <MaterialTable
                 style={{
                     minWidth: '70%'
                 }}
+                isLoading={isLoading}
                 columns={[
                     { title: 'Plate Id', field: 'plateId' },
                     { title: 'Model', field: 'modelName' },
                     { title: 'Year', field: 'modelYear' },
                     { title: 'Owner', field: 'owner' }
                 ]}
-                data={[
-                    {
-                        plateId: 'Mehmet',
-                        modelName: 'Baran',
-                        modelYear: 1990,
-                        owner: 'Driver'
-                    }
-                ]}
+                data={carplates}
                 title="Carplates App"
             />
         );
