@@ -6,7 +6,7 @@ import (
 	cmap "github.com/orcaman/concurrent-map"
 )
 
-type CarPlateStorage interface {
+type CarPlateStorager interface {
 	Get(id string) (*models.CarPlate, bool)
 	GetAll() []*models.CarPlate
 	Add(m *models.CarPlate) bool
@@ -15,30 +15,30 @@ type CarPlateStorage interface {
 	Reset()
 }
 
-var carplateStorage *CarPlateStorageImpl
+var carplateStorage *CarPlateStorage
 
 func init() {
-	carplateStorage = &CarPlateStorageImpl{
+	carplateStorage = &CarPlateStorage{
 		carplates: cmap.New(),
 	}
 }
 
-func CarPlateDb() CarPlateStorage {
+func CarPlateDb() CarPlateStorager {
 	return carplateStorage
 }
 
-type CarPlateStorageImpl struct {
+type CarPlateStorage struct {
 	carplates cmap.ConcurrentMap
 }
 
-func (c *CarPlateStorageImpl) Get(id string) (*models.CarPlate, bool) {
+func (c *CarPlateStorage) Get(id string) (*models.CarPlate, bool) {
 	if carplate, found := c.carplates.Get(id); found {
 		return carplate.(*models.CarPlate), found
 	}
 	return nil, false
 }
 
-func (c *CarPlateStorageImpl) GetAll() []*models.CarPlate {
+func (c *CarPlateStorage) GetAll() []*models.CarPlate {
 	carplatesMap := c.carplates.Items()
 	results := make([]*models.CarPlate, 0, len(carplatesMap))
 
@@ -48,26 +48,25 @@ func (c *CarPlateStorageImpl) GetAll() []*models.CarPlate {
 	return results
 }
 
-func (c *CarPlateStorageImpl) Add(m *models.CarPlate) bool {
+func (c *CarPlateStorage) Add(m *models.CarPlate) bool {
 	if m.ID == "" {
 		return false
 	}
 	return c.carplates.SetIfAbsent(m.ID, m)
 }
 
-func (c *CarPlateStorageImpl) Update(id string, m *models.CarPlate) bool {
+func (c *CarPlateStorage) Update(id string, m *models.CarPlate) bool {
 	if c.carplates.Has(id) {
 		c.carplates.Set(id, m)
 		return true
 	}
-
 	return false
 }
 
-func (c *CarPlateStorageImpl) Delete(id string) {
+func (c *CarPlateStorage) Delete(id string) {
 	c.carplates.Remove(id)
 }
 
-func (c *CarPlateStorageImpl) Reset() {
+func (c *CarPlateStorage) Reset() {
 	c.carplates = cmap.New()
 }

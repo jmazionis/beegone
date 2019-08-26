@@ -13,7 +13,7 @@ import (
 
 type CarPlateController struct {
 	beego.Controller
-	CarPlateService services.CarPlateService
+	CarPlateService services.CarPlateServicer
 }
 
 func (c *CarPlateController) Get() {

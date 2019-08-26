@@ -1,6 +1,9 @@
 run-api:
 	@go run ./cmd/api/main.go
 
+api-unit-tests: 
+	@go test
+
 api-integration-tests:
 	@go test -v ./internal/api/integration-tests/...
 
