@@ -1,114 +1,76 @@
 import { CarplateModel } from '../models/carplateModel';
 
+export interface CarplateValidationErrors {
+    errors: string[]
+}
+
+export interface AddCarTemplateResponse {
+    id: string;
+}
+
 export class CarplatesApi {
     constructor(private readonly _baseUrl: string) {}
 
-    getAll(): Promise<CarplateModel[]> {
-        return new Promise((resolve, reject) => {
-            fetch(`${this._baseUrl}/api/carplates`)
-                .then(res => {
-                    if (res.ok) {
-                        return res.json();
-                    }
-                    reject(res);
-                })
-                .then(json => {
-                    resolve(json);
-                })
-                .catch(err => {
-                    reject(err);
-                });
-        });
+    async getAll(): Promise<CarplateModel[]> {
+        const response =  await fetch(`${this._baseUrl}/api/carplates`)
+       
+        if (!response.ok) {
+            throw Error(response.statusText)            
+        }                
+        
+        return response.json() 
     }
 
-    get(id: string): Promise<CarplateModel> {
-        return new Promise((resolve, reject) => {
-            fetch(`${this._baseUrl}/api/carplates/${id}`)
-                .then(res => {
-                    if (res.ok) {
-                        return res.json();
-                    }
-                    reject(res);
-                })
-                .then(json => {
-                    resolve(json);
-                })
-                .catch(err => {
-                    reject(err);
-                });
-        });
+    async get(id: string): Promise<CarplateModel> {
+        const response = await fetch(`${this._baseUrl}/api/carplates/${id}`)
+
+        if (!response.ok) {
+            throw Error(response.statusText)            
+        }                
+        
+        return response.json() 
     }
 
-    add(carplateModel: CarplateModel): Promise<void> {
-        return new Promise((resolve, reject) => {
-            console.log('Model to be added', JSON.stringify(carplateModel));
-            fetch(
-                new Request(`${this._baseUrl}/api/carplates`, {
-                    method: 'post',
-                    headers: {
-                        'Content-Type': '"application/json; charset=utf-8"'
-                    },
-                    body: JSON.stringify(carplateModel)
-                })
-            )
-                .then(res => {
-                    if (res.ok) {
-                        return res.json();
-                    }
-                    reject(res);
-                })
-                .then(json => {
-                    console.log('Post json');
-                    resolve(json);
-                })
-                .catch(err => {
-                    reject(err);
-                });
-        });
+    async add(carplateModel: CarplateModel): Promise<AddCarTemplateResponse> {
+        const response =  await fetch(
+            new Request(`${this._baseUrl}/api/carplates`, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(carplateModel)
+            })
+        )
+        
+        if (!response.ok) {
+            throw Error(response.statusText)            
+        }  
+        
+        return response.json() as Promise<AddCarTemplateResponse>        
     }
 
-    update(carplateModel: CarplateModel): Promise<void> {
-        return new Promise((resolve, reject) => {
-            fetch(
-                new Request(`${this._baseUrl}/api/carplates`, {
-                    method: 'put',
-                    body: JSON.stringify(carplateModel)
-                })
-            )
-                .then(res => {
-                    if (res.ok) {
-                        return res.json();
-                    }
-                    reject(res);
-                })
-                .then(json => {
-                    resolve(json);
-                })
-                .catch(err => {
-                    reject(err);
-                });
-        });
+    async update(carplateModel: CarplateModel): Promise<void> {
+        const response = await fetch(
+            new Request(`${this._baseUrl}/api/carplates`, {
+                method: 'put',
+                body: JSON.stringify(carplateModel)
+            })
+        )
+
+        if (!response.ok) {
+            throw Error(response.statusText)            
+        }           
     }
 
-    delete(id: string): Promise<void> {
-        return new Promise((resolve, reject) => {
-            fetch(
-                new Request(`${this._baseUrl}/api/carplates/${id}`, {
-                    method: 'delete'
-                })
-            )
-                .then(res => {
-                    if (res.ok) {
-                        return res.json();
-                    }
-                    reject(res);
-                })
-                .then(json => {
-                    resolve(json);
-                })
-                .catch(err => {
-                    reject(err);
-                });
-        });
+   async delete(id: string): Promise<void> {
+        const response = await fetch(
+            new Request(`${this._baseUrl}/api/carplates/${id}`, {
+                method: 'delete'
+            })
+        )    
+
+        if (!response.ok) {
+            throw Error(response.statusText)            
+        }          
     }
 }

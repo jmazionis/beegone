@@ -46,10 +46,13 @@ export class CarplateTable extends Component<
             this.setState({
                 isLoading: true
             });
-            await carPlatesApi.add(carplate);
+
+            const addCarTemplateResponse = await carPlatesApi.add(carplate);
+            carplate.id = addCarTemplateResponse.id;
+            
             this.setState(prevState => {
                 return { carplates: [...prevState.carplates, carplate] };
-            });
+            });            
         } catch (error) {
             console.log('Error adding carplate: ', error);
         } finally {
