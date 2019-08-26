@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { CarplatesApi } from './services/carPlatesApi';
-import { CarplatesTable } from './components/CarplatesTable';
+import { CarplateTable } from './components/CarplateTable';
 
 interface AppProps {
     carplatesApi: CarplatesApi;
@@ -17,7 +17,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
                 marginTop: '100px'
             }}
         >
-            <CarplatesTable carPlatesApi={props.carplatesApi} />
+            <CarplateTable carPlatesApi={props.carplatesApi} />
         </div>
     );
 };

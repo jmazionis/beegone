@@ -11,7 +11,7 @@ type CarPlate struct {
 	ID        string `json:"id,omitempty" valid:"Required"`
 	PlateID   string `json:"plateId" valid:"Required;Match([A-Z]{3}-[0-9]{3})"`
 	ModelName string `json:"modelName" valid:"Required"`
-	ModelYear int16  `json:"modelYear" valid:"Required;Min(1886)"`
+	ModelYear int16  `json:"modelYear,string" valid:"Required;Min(1886)"`
 	Owner     string `json:"owner" valid:"Required"`
 }
 

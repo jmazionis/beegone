@@ -41,9 +41,13 @@ export class CarplatesApi {
 
     add(carplateModel: CarplateModel): Promise<void> {
         return new Promise((resolve, reject) => {
+            console.log('Model to be added', JSON.stringify(carplateModel));
             fetch(
                 new Request(`${this._baseUrl}/api/carplates`, {
                     method: 'post',
+                    headers: {
+                        'Content-Type': '"application/json; charset=utf-8"'
+                    },
                     body: JSON.stringify(carplateModel)
                 })
             )
@@ -54,6 +58,7 @@ export class CarplatesApi {
                     reject(res);
                 })
                 .then(json => {
+                    console.log('Post json');
                     resolve(json);
                 })
                 .catch(err => {
