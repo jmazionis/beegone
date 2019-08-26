@@ -91,17 +91,18 @@ func TestGetAllCarplates(t *testing.T) {
 			})
 			Reset(resetStorage)
 		})
-
 	})
 }
 
 func TestAddCarplate(t *testing.T) {
 	Convey("Subject: Test AddCarplate endpoint", t, func() {
 		Convey("Given valid request", func() {
+			carplateId := "carplate1"
 			rBody, _ := json.Marshal(map[string]interface{}{
+				"id":        carplateId,
 				"plateId":   "AAA-200",
 				"modelName": "Subaru Outback",
-				"modelYear": 1990,
+				"modelYear": "1990",
 				"owner":     "Driver 2",
 			})
 			r, _ := http.NewRequest("POST", "/api/carplates", bytes.NewBuffer(rBody))
@@ -112,11 +113,14 @@ func TestAddCarplate(t *testing.T) {
 			Convey("Status code should Be 201", func() {
 				So(w.Code, ShouldEqual, 201)
 			})
-			Convey("Should include location header", func() {
+			Convey("Should include location header with location to new carplate", func() {
 				So(len(w.Header().Get("location")), ShouldBeGreaterThan, 0)
 			})
-			Convey("The body should be empty", func() {
-				So(w.Body.Len(), ShouldBeZeroValue)
+			Convey("Should return id of newly created carplate", func() {
+				newCarplateResp := &models.AddCarplateResponse{}
+				_ = json.Unmarshal(w.Body.Bytes(), newCarplateResp)
+
+				So(len(newCarplateResp.ID), ShouldBeGreaterThan, 0)
 			})
 		})
 
@@ -124,7 +128,7 @@ func TestAddCarplate(t *testing.T) {
 			rBody, _ := json.Marshal(map[string]interface{}{
 				"plateId":   "AAA-20",
 				"modelName": "Subaru Impreza",
-				"modelYear": 1990,
+				"modelYear": "1990",
 			})
 			r, _ := http.NewRequest("POST", "/api/carplates", bytes.NewBuffer(rBody))
 			w := httptest.NewRecorder()
@@ -159,7 +163,7 @@ func TestUpdateCarplate(t *testing.T) {
 				"id":        "A",
 				"plateId":   "AAA-200",
 				"modelName": "Subaru Outback",
-				"modelYear": 1990,
+				"modelYear": "1990",
 				"owner":     "Driver 2",
 			})
 			r, _ := http.NewRequest("PUT", "/api/carplates", bytes.NewBuffer(rBody))
@@ -183,7 +187,7 @@ func TestUpdateCarplate(t *testing.T) {
 				"id":        "B",
 				"plateId":   "AAA-200",
 				"modelName": "Subaru Outback",
-				"modelYear": 1990,
+				"modelYear": "1990",
 				"owner":     "Driver 2",
 			})
 			r, _ := http.NewRequest("PUT", "/api/carplates", bytes.NewBuffer(rBody))
@@ -206,7 +210,7 @@ func TestUpdateCarplate(t *testing.T) {
 			rBody, _ := json.Marshal(map[string]interface{}{
 				"plateId":   "AA-200",
 				"modelName": "Subaru Outback",
-				"modelYear": 1700,
+				"modelYear": "1700",
 				"owner":     "Driver 2",
 			})
 			r, _ := http.NewRequest("PUT", "/api/carplates", bytes.NewBuffer(rBody))
@@ -226,7 +230,7 @@ func TestUpdateCarplate(t *testing.T) {
 				So(w.Code, ShouldEqual, 400)
 			})
 			Convey("The body should contain validation errors summary", func() {
-				So(len(errors.Errors), ShouldEqual, 3)
+				So(len(errors.Errors), ShouldEqual, 2)
 			})
 		})
 		Reset(resetStorage)

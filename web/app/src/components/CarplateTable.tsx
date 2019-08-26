@@ -129,8 +129,7 @@ export class CarplateTable extends Component<
                 data={carplates}
                 editable={{
                     onRowAdd: carplate => this.handleAddCarplate(carplate),
-                    onRowUpdate: carplate =>
-                        this.handleUpdateCarplate(carplate),
+                    onRowUpdate: carplate => this.handleUpdateCarplate(carplate),
                     onRowDelete: carplate => this.handleDeleteCarplate(carplate)
                 }}
             />

@@ -16,10 +16,6 @@ type CarPlateController struct {
 	CarPlateService services.CarPlateService
 }
 
-type AddCarplateResponse struct {
-	ID string `json:"id"`
-}
-
 func (c *CarPlateController) Get() {
 	id := c.Ctx.Input.Param(":id")
 	carplate, err := c.CarPlateService.Get(id)
@@ -44,10 +40,7 @@ func (c *CarPlateController) Add() {
 	var carplate *models.CarPlate
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &carplate)
 
-	beego.Trace("Add new carplate: ", carplate)
-
 	if err != nil {
-		beego.Error(err)
 		c.Ctx.Output.SetStatus(400)
 		return
 	}
@@ -62,14 +55,13 @@ func (c *CarPlateController) Add() {
 
 	err = c.CarPlateService.Add(carplate)
 	if err != nil {
-		beego.Error(err)
 		c.Ctx.Output.SetStatus(400)
 		return
 	}
 
 	c.Ctx.Output.SetStatus(201)
 	c.Ctx.Output.Header("location", fmt.Sprintf("%s/%s", c.Ctx.Input.URL(), carplate.ID))
-	c.Data["json"] = &AddCarplateResponse{ID: carplate.ID}
+	c.Data["json"] = &models.AddCarplateResponse{ID: carplate.ID}
 	c.ServeJSON()
 }
 
@@ -78,7 +70,6 @@ func (c *CarPlateController) Update() {
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &carplate)
 	if err != nil {
 		c.Ctx.Output.SetStatus(400)
-		beego.Error(err)
 		return
 	}
 
@@ -92,7 +83,6 @@ func (c *CarPlateController) Update() {
 	err = c.CarPlateService.Update(carplate)
 	if err != nil {
 		c.Ctx.Output.SetStatus(404)
-		beego.Error(err)
 		return
 	}
 

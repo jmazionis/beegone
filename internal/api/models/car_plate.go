@@ -7,6 +7,10 @@ import (
 	"github.com/astaxie/beego/validation"
 )
 
+type AddCarplateResponse struct {
+	ID string `json:"id"`
+}
+
 type CarPlate struct {
 	ID        string `json:"id,omitempty"`
 	PlateID   string `json:"plateId"`
