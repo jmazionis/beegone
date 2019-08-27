@@ -27,8 +27,8 @@ func (m *StorageMock) Add(carplate *models.CarPlate) bool {
 	return args.Bool(0)
 }
 
-func (m *StorageMock) Update(id string, carplate *models.CarPlate) bool {
-	args := m.Called(id, carplate)
+func (m *StorageMock) Update(carplate *models.CarPlate) bool {
+	args := m.Called(carplate)
 	return args.Bool(0)
 }
 
@@ -53,14 +53,90 @@ func TestGetSuccess(t *testing.T) {
 	assert.Equal(t, carplate.ID, id)
 }
 
-// func TestGetFailure(t *testing.T) {
-// 	mock := new(StorageMock)
-// 	service := NewCarPlateService(mock)
-// 	id := "111"
-// 	mock.On("Get", id).Return(nil, false)
+func TestGetFailure(t *testing.T) {
+	mock := new(StorageMock)
+	service := NewCarPlateService(mock)
+	id := "111"
+	mock.On("Get", id).Return((*models.CarPlate)(nil), false)
 
-// 	_, err := service.Get(id)
+	carplate, err := service.Get(id)
 
-// 	mock.AssertExpectations(t)
-// 	assert.Error(t, err)
-// }
+	mock.AssertExpectations(t)
+	assert.Error(t, err)
+	assert.Nil(t, carplate)
+}
+
+func TestGetAll(t *testing.T) {
+	mock := new(StorageMock)
+	service := NewCarPlateService(mock)
+	id1, id2 := "id1", "id2"
+	mock.On("GetAll").Return([]*models.CarPlate{
+		&models.CarPlate{ID: id1},
+		&models.CarPlate{ID: id2},
+	})
+
+	carplates := service.GetAll()
+
+	mock.AssertExpectations(t)
+	assert.Equal(t, carplates[0].ID, id1)
+	assert.Equal(t, carplates[1].ID, id2)
+}
+
+func TestAddSuccess(t *testing.T) {
+	mock := new(StorageMock)
+	service := NewCarPlateService(mock)
+	carplate := &models.CarPlate{}
+	mock.On("Add", carplate).Return(true)
+
+	err := service.Add(carplate)
+
+	mock.AssertExpectations(t)
+	assert.NoError(t, err)
+}
+
+func TestAddFailure(t *testing.T) {
+	mock := new(StorageMock)
+	service := NewCarPlateService(mock)
+	carplate := &models.CarPlate{}
+	mock.On("Add", carplate).Return(false)
+
+	err := service.Add(carplate)
+
+	mock.AssertExpectations(t)
+	assert.Error(t, err)
+}
+
+func TestUpdateSuccess(t *testing.T) {
+	mock := new(StorageMock)
+	service := NewCarPlateService(mock)
+	carplate := &models.CarPlate{ID: "id1"}
+	mock.On("Update", carplate).Return(true)
+
+	err := service.Update(carplate)
+
+	mock.AssertExpectations(t)
+	assert.NoError(t, err)
+}
+
+func TestUpdateFailure(t *testing.T) {
+	mock := new(StorageMock)
+	service := NewCarPlateService(mock)
+	carplate := &models.CarPlate{ID: "id1"}
+	mock.On("Update", carplate).Return(false)
+
+	err := service.Update(carplate)
+
+	mock.AssertExpectations(t)
+	assert.Error(t, err)
+}
+
+func TestDelete(t *testing.T) {
+	mock := new(StorageMock)
+	service := NewCarPlateService(mock)
+	carplateId := "id1"
+	mock.On("Delete", carplateId).Return(false)
+
+	service.Delete(carplateId)
+
+	mock.AssertExpectations(t)
+}

@@ -25,6 +25,9 @@ func init() {
 }
 
 func TestGetCarplate(t *testing.T) {
+	if testing.Short() {
+		t.Skip()
+	}
 	Convey("Subject: Test GetCarplate endpoint", t, func() {
 		Convey("Given non existing carplate", func() {
 			r, _ := http.NewRequest("GET", "/api/carplates/1", nil)
@@ -68,6 +71,9 @@ func TestGetCarplate(t *testing.T) {
 }
 
 func TestGetAllCarplates(t *testing.T) {
+	if testing.Short() {
+		t.Skip()
+	}
 	Convey("Subject: Test GetCarplates endpoint", t, func() {
 		Convey("Given valid request", func() {
 			storages.CarPlateDb().Add(&models.CarPlate{
@@ -95,6 +101,9 @@ func TestGetAllCarplates(t *testing.T) {
 }
 
 func TestAddCarplate(t *testing.T) {
+	if testing.Short() {
+		t.Skip()
+	}
 	Convey("Subject: Test AddCarplate endpoint", t, func() {
 		Convey("Given valid request", func() {
 			carplateId := "carplate1"
@@ -154,6 +163,9 @@ func TestAddCarplate(t *testing.T) {
 }
 
 func TestUpdateCarplate(t *testing.T) {
+	if testing.Short() {
+		t.Skip()
+	}
 	Convey("Subject: Test UpdateCarplate endpoint", t, func() {
 		Convey("Given valid request", func() {
 			storages.CarPlateDb().Add(&models.CarPlate{
@@ -237,6 +249,9 @@ func TestUpdateCarplate(t *testing.T) {
 }
 
 func TestDeleteCarplate(t *testing.T) {
+	if testing.Short() {
+		t.Skip()
+	}
 	Convey("Subject: Test DeleteCarplate endpoint", t, func() {
 		Convey("Given existing resource", func() {
 			storages.CarPlateDb().Add(&models.CarPlate{

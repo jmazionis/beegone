@@ -37,7 +37,6 @@ func (c *CarPlateService) GetAll() []*models.CarPlate {
 }
 
 func (c *CarPlateService) Add(carPlate *models.CarPlate) error {
-
 	if ok := c.storage.Add(carPlate); !ok {
 		return fmt.Errorf("carplate %v already exists", carPlate.ID)
 	}
@@ -45,7 +44,7 @@ func (c *CarPlateService) Add(carPlate *models.CarPlate) error {
 }
 
 func (c *CarPlateService) Update(carPlate *models.CarPlate) error {
-	if ok := c.storage.Update(carPlate.ID, carPlate); !ok {
+	if ok := c.storage.Update(carPlate); !ok {
 		return fmt.Errorf("carplate %v not found", carPlate.ID)
 	}
 	return nil
