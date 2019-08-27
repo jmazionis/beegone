@@ -23,6 +23,7 @@ func init() {
 	}
 }
 
+// A "thread" safe map-based storage of type string:Anything.
 func CarPlateDb() CarPlateStorager {
 	return carplateStorage
 }
