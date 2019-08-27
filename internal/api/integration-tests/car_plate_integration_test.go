@@ -68,19 +68,19 @@ func TestGetCarplate(t *testing.T) {
 }
 
 func TestGetAllCarplates(t *testing.T) {
-	storages.CarPlateDb().Add(&models.CarPlate{
-		ID: "A",
-	})
-	storages.CarPlateDb().Add(&models.CarPlate{
-		ID: "B",
-	})
-	r, _ := http.NewRequest("GET", "/api/carplates", nil)
-	w := httptest.NewRecorder()
-
-	beego.BeeApp.Handlers.ServeHTTP(w, r)
-
 	Convey("Subject: Test GetCarplates endpoint", t, func() {
 		Convey("Given valid request", func() {
+			storages.CarPlateDb().Add(&models.CarPlate{
+				ID: "A",
+			})
+			storages.CarPlateDb().Add(&models.CarPlate{
+				ID: "B",
+			})
+			r, _ := http.NewRequest("GET", "/api/carplates", nil)
+			w := httptest.NewRecorder()
+
+			beego.BeeApp.Handlers.ServeHTTP(w, r)
+
 			Convey("Status code should be 200", func() {
 				So(w.Code, ShouldEqual, 200)
 			})
@@ -135,17 +135,17 @@ func TestAddCarplate(t *testing.T) {
 
 			beego.BeeApp.Handlers.ServeHTTP(w, r)
 
-			errors := struct {
-				Errors []string `json:"errors"`
-			}{}
-			err := json.Unmarshal(w.Body.Bytes(), &errors)
-			if err != nil {
-				beego.Error(err)
-			}
 			Convey("Status code should Be 400", func() {
 				So(w.Code, ShouldEqual, 400)
 			})
 			Convey("The body should contain validation errors summary", func() {
+				errors := struct {
+					Errors []string `json:"errors"`
+				}{}
+				err := json.Unmarshal(w.Body.Bytes(), &errors)
+				if err != nil {
+					beego.Error(err)
+				}
 				So(len(errors.Errors), ShouldEqual, 2)
 			})
 		})
@@ -218,18 +218,17 @@ func TestUpdateCarplate(t *testing.T) {
 
 			beego.BeeApp.Handlers.ServeHTTP(w, r)
 
-			errors := struct {
-				Errors []string `json:"errors"`
-			}{}
-			err := json.Unmarshal(w.Body.Bytes(), &errors)
-			if err != nil {
-				beego.Error(err)
-			}
-
 			Convey("Status code should Be 400", func() {
 				So(w.Code, ShouldEqual, 400)
 			})
 			Convey("The body should contain validation errors summary", func() {
+				errors := struct {
+					Errors []string `json:"errors"`
+				}{}
+				err := json.Unmarshal(w.Body.Bytes(), &errors)
+				if err != nil {
+					beego.Error(err)
+				}
 				So(len(errors.Errors), ShouldEqual, 2)
 			})
 		})

@@ -53,14 +53,14 @@ func TestGetSuccess(t *testing.T) {
 	assert.Equal(t, carplate.ID, id)
 }
 
-func TestGetFailure(t *testing.T) {
-	mock := new(StorageMock)
-	service := NewCarPlateService(mock)
-	id := "111"
-	mock.On("Get", id).Return(nil, false)
+// func TestGetFailure(t *testing.T) {
+// 	mock := new(StorageMock)
+// 	service := NewCarPlateService(mock)
+// 	id := "111"
+// 	mock.On("Get", id).Return(nil, false)
 
-	_, err := service.Get(id)
+// 	_, err := service.Get(id)
 
-	mock.AssertExpectations(t)
-	assert.Error(t, err)
-}
+// 	mock.AssertExpectations(t)
+// 	assert.Error(t, err)
+// }
