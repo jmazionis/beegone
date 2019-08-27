@@ -46,7 +46,6 @@ func (c *CarPlate) Validate() (bool, *validationSummary) {
 
 	if v.HasErrors() {
 		return false, toValidationSummary(v.Errors)
-
 	}
 	return true, nil
 }
