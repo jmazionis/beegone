@@ -104,11 +104,19 @@ $ docker-compose up -d
 
 Go to http://localhost:9000/ to see results 
 
-## Running the tests
+## Testing
 
+- To run integration tests, run:
 
 ```
-Give an example
+make run-integration-tests
+```
+
+
+- To run unit tests, run:
+
+```
+make run-unit-tests
 ```
 
 ## Built With
