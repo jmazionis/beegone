@@ -5,6 +5,7 @@ build-api-container:
 	@docker build -f ./build/package/api/Dockerfile -t beegone-api .
 
 run-server:
+	@cd web/app && yarn && yarn build
 	@go build -o ./bin/server ./cmd/server/...
 	@./bin/server
 

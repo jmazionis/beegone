@@ -6,7 +6,6 @@ import (
 )
 
 func main() {
-	beego.BConfig.CopyRequestBody = true
 	beego.BConfig.Listen.HTTPPort = 9000
 	beego.SetStaticPath("/static", "web/app/build/static")
 	beego.SetStaticPath("/", "web/app/build")
