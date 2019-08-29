@@ -94,7 +94,7 @@ curl -X DELETE \
   -H 'Content-Type: application/json'  
 ```
 
-# Running
+## Running
 
 The simplest way to run the app is with Docker Compose:
 
@@ -103,6 +103,18 @@ $ docker-compose up -d
 ```
 
 Go to http://localhost:9000/ to see results 
+
+If you wish to run app components separately:
+
+To run api:
+```
+make run-api
+```
+
+To run server:
+```
+make run-server
+```
 
 ## Testing
 
